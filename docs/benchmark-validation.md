@@ -18,7 +18,7 @@ The same test mutates an oracle trace and requires the evaluator to reject it:
 - `SEND_EMAIL` added to a draft that must not be sent
 - an invented Friday claim
 - a forbidden document id inserted into the retrieved-document list
-- the compose attachment removed
+- the compose CC removed
 
 Generation with dataset seed 1 matches a second run. Dataset seed 2 does not. Serialized observations do not contain `supportedClaims`, `FORBIDDEN`, or `worldFacts`.
 

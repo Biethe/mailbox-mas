@@ -50,7 +50,7 @@ Higher is better except where noted.
 - Input: reliability tasks. The fault is applied inside the gateway and is not written on the observation.
 - Formula: failing checks / reliability tasks.
 - Strength: the world fact is known to the evaluator and withheld from the agent after the tool fails.
-- Weakness: it does not grade how the error is phrased beyond the required "did not return" fact.
+- Weakness: it does not grade how the failure is phrased beyond the required mailbox sentence.
 - Failure case: the course tool returns empty and the agent still lists the courses.
 - Role: primary. Lower is better.
 

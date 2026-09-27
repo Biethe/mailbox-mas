@@ -13,7 +13,7 @@ public final class BenchmarkRunner {
     public List<Scored> run(List<BenchmarkTask> tasks, Baseline baseline) {
         List<Scored> scored = new ArrayList<>();
         for (BenchmarkTask task : tasks) {
-            ToolGateway tools = new ToolGateway(session.tools, session.mail, task.truth().fault());
+            ToolGateway tools = new ToolGateway(session.tools, session.mail, session.repo, task.truth().fault());
             ExecutionResult result = baseline.execute(task, tools).overlayTools(
                     tools.calls(), tools.emails(), tools.entities(), tools.documents(), tools.checks(),
                     tools.errors(), tools.actions(), tools.sends());

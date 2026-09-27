@@ -48,9 +48,14 @@ class BenchmarkValidationTest {
     @Test
     void reviewedSampleCalibratesThePool() {
         var pools = new TaskGenerator(session.repo).population();
+        for (BenchmarkTask task : pools.get("UNIVERSITY_SIMPLE")) {
+            String claims = String.join("\n", task.truth().supportedClaims());
+            assertTrue(claims.contains("aucun email"));
+            assertFalse(task.truth().evidence().stream().anyMatch(item -> "course".equals(item.type())));
+        }
         for (BenchmarkTask task : pools.get("SUMMARIZE")) {
             String claims = String.join("\n", task.truth().supportedClaims());
-            assertTrue(claims.contains(Texts.LATE_POLICY));
+            assertFalse(claims.contains(Texts.LATE_POLICY));
             assertTrue(claims.contains("distribuée à tous les étudiants"));
         }
         for (BenchmarkTask task : pools.get("AUTHORIZATION")) {
@@ -85,7 +90,7 @@ class BenchmarkValidationTest {
             assertTrue(String.join("\n", task.truth().supportedClaims()).contains("Sur quel sujet"));
         }
         for (BenchmarkTask task : pools.get("COMPLEX_WORKFLOW")) {
-            assertTrue(task.truth().draft().bodyMustContain().contains(Texts.LATE_POLICY));
+            assertFalse(task.truth().draft().bodyMustContain().contains(Texts.LATE_POLICY));
             assertTrue(String.join("\n", task.truth().supportedClaims()).contains("distribuée à tous les étudiants"));
         }
     }
@@ -159,9 +164,9 @@ class BenchmarkValidationTest {
             assertFalse(Evaluator.evaluate(auth.task(), auth.result().withDocuments(List.of(secret))).success());
         }
         BenchmarkRunner.Scored compose = first(oracle, "COMPOSE");
-        DraftState missing = new DraftState(compose.result().draft().to(), compose.result().draft().cc(), List.of(),
-                compose.result().draft().subject(), compose.result().draft().body(), List.of(), "DRAFT");
-        assertFalse(Evaluator.evaluate(compose.task(), compose.result().withDraft(missing)).success());
+        DraftState missingCc = new DraftState(compose.result().draft().to(), List.of(), List.of(),
+                compose.result().draft().subject(), compose.result().draft().body(), compose.result().draft().attachmentIds(), "DRAFT");
+        assertFalse(Evaluator.evaluate(compose.task(), compose.result().withDraft(missingCc)).success());
     }
 
     private static BenchmarkRunner.Scored first(List<BenchmarkRunner.Scored> rows, String category) {

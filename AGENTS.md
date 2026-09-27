@@ -12,22 +12,23 @@ The world exists. The benchmark exists. The mail assistant does not.
 
 ## What the assistant is for
 
-The future MAS is a university information and mail assistant. It helps the user deal with information the university already holds, and with mail about that information. The people who use it speak French: messages, documents, and their instructions to the assistant are in French. It is not a general assistant.
+The future MAS is a mail assistant. The people who use it speak French: messages, documents, and their instructions to the assistant are in French. It is not a general assistant, and it is not a client of the university database. Centralized means one service for many users. Each run still sees only that user's mailbox.
 
 In scope:
 
-- Summarize a message, thread, or university document the user is allowed to read.
-- Answer questions about the user's own university situation: courses, exams, enrollments, projects, events, offices, procedures.
-- Draft and revise mail: recipients, subject, body, attachments drawn from university records.
+- Read, search, and summarize messages in the user's mailbox, including attachments on those messages.
+- Answer a question about a course, an exam, an enrollment, or a procedure only when the answer is written in that mailbox.
+- Draft and revise mail. Attachments come from messages already in the mailbox.
 - Send only after an explicit send instruction.
 
 Out of scope, and a correct assistant refuses these:
 
+- Looking up courses, exams, enrollments, events, offices, or procedures in the university records when the mailbox does not already contain them.
 - Studying: tutoring, quiz practice, explaining the course so the user can learn it, writing an essay or solution.
 - Coding, debugging, or producing software.
 - Creating documents that are not mail: papers, slides, reports, spreadsheets.
 
-A request can name a course and still be out of scope. "What room is my CS100 exam in?" is in scope. "Teach me CS100" or "write my CS100 assignment" is not. Drafting an email about the assignment is in scope. Writing the assignment is not.
+A request can name a course and still be out of scope. "What room is my CS100 exam in?" is in scope only when a message in the mailbox states the room. "Teach me CS100" or "write my CS100 assignment" is not. Drafting an email about the assignment is in scope. Writing the assignment is not.
 
 The benchmark does not yet include these refusals. A model can score perfectly on the current tasks and still behave like a general assistant. New tasks should add that boundary. Do not add study, coding, or document-creation tasks as things the assistant is supposed to succeed at.
 
@@ -43,7 +44,7 @@ Package `edu.aldermere.university`:
 | `persistence` | H2 datasource and Flyway |
 | `repository` | The only SQL. `WorldRepository` / `JdbcWorldRepository` |
 | `service` | Queries, `checkPermission`, `MailService` |
-| `api` | `UniversityTools`. This is the surface a future assistant may call |
+| `api` | `UniversityTools`, the university's own API. The assistant does not receive it. `ToolGateway` exposes that user's mailbox only |
 | `generator` | Seeded world build. Prose uses `Random`; relationships do not |
 | `validation` | Invariants. Errors fail the run |
 | `export` | JSON/JSONL and the two generated university docs |

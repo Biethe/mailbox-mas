@@ -49,33 +49,23 @@ public final class OracleBaseline implements Baseline {
         tools.authenticate(task.observation().mailboxId());
         if (task.truth().fault() != null) {
             trigger(tools, task.truth());
-        }
-        if (task.observation().selectedThreadId() != null && task.truth().fault() == null) {
+        } else if (task.observation().selectedThreadId() != null) {
             tools.getEmailThread(task.observation().selectedThreadId());
+        } else if (task.truth().requiresTools()) {
+            tools.searchEmails("");
         }
-        boolean courses = task.truth().evidence().stream().anyMatch(item -> item.relevant() && "course".equals(item.type()));
-        if (courses && task.truth().fault() == null) {
-            tools.getStudentCourses(task.truth().userPersonId());
-        }
-        for (Fact fact : task.truth().worldFacts()) {
-            switch (fact.key()) {
-                case "_courseId" -> tools.examsForCourse(fact.value());
-                case "_documentId" -> {
-                    if (documents) {
-                        tools.getDocument(fact.value());
-                    }
-                }
-                case "_eventQuery" -> tools.searchEvents(fact.value());
-                case "_projectId" -> tools.getProjectMembers(fact.value());
-                default -> {
+        if (documents && task.truth().fault() == null) {
+            for (Fact fact : task.truth().worldFacts()) {
+                if ("_documentId".equals(fact.key())) {
+                    tools.getDocument(fact.value());
                 }
             }
         }
     }
 
     private static void trigger(ToolGateway tools, GroundTruth truth) {
-        if ("getStudentCourses".equals(truth.fault().tool())) {
-            tools.getStudentCourses(truth.userPersonId());
+        if ("searchEmails".equals(truth.fault().tool())) {
+            tools.searchEmails("");
         }
     }
 

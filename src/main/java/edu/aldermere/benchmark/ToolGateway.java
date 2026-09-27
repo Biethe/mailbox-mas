@@ -2,17 +2,15 @@ package edu.aldermere.benchmark;
 
 import edu.aldermere.university.api.UniversityTools;
 import edu.aldermere.university.api.Views.EmailInfo;
-import edu.aldermere.university.api.Views.EventInfo;
-import edu.aldermere.university.api.Views.ExamInfo;
 import edu.aldermere.university.api.Views.Gated;
-import edu.aldermere.university.api.Views.PersonInfo;
 import edu.aldermere.university.api.Views.ThreadInfo;
 import edu.aldermere.university.domain.Model.AccessDecision;
 import edu.aldermere.university.domain.Model.ActorContext;
-import edu.aldermere.university.domain.Model.Course;
 import edu.aldermere.university.domain.Model.Document;
 import edu.aldermere.university.domain.Model.Email;
+import edu.aldermere.university.domain.Model.EmailAttachment;
 import edu.aldermere.university.domain.Model.EmailRecipient;
+import edu.aldermere.university.repository.WorldRepository;
 import edu.aldermere.university.service.MailService;
 
 import java.time.LocalDateTime;
@@ -20,12 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The only university surface a system under test receives. Calls are recorded here,
- * so a trace cannot invent tool results that the university did not return.
+ * The only surface a system under test receives: the authenticated mailbox.
+ * A document is returned only when it is attached to a message in that mailbox.
  */
 public final class ToolGateway {
     private final UniversityTools tools;
     private final MailService mail;
+    private final WorldRepository repo;
     private final FaultSpec fault;
     private final List<ToolCall> calls = new ArrayList<>();
     private final List<String> emails = new ArrayList<>();
@@ -37,9 +36,10 @@ public final class ToolGateway {
     private int sends;
     private ActorContext actor;
 
-    public ToolGateway(UniversityTools tools, MailService mail, FaultSpec fault) {
+    public ToolGateway(UniversityTools tools, MailService mail, WorldRepository repo, FaultSpec fault) {
         this.tools = tools;
         this.mail = mail;
+        this.repo = repo;
         this.fault = fault;
     }
 
@@ -63,35 +63,18 @@ public final class ToolGateway {
         return actor;
     }
 
-    public Gated<List<Course>> getStudentCourses(String studentId) {
-        String args = actorArgs("studentId=" + studentId);
-        if (blocked("getStudentCourses", args)) {
+    public Gated<List<EmailInfo>> searchEmails(String query) {
+        String args = actorArgs("query=" + query);
+        if (blocked("searchEmails", args)) {
             return empty();
         }
-        Gated<List<Course>> result = tools.getStudentCourses(actor, studentId);
+        Gated<List<EmailInfo>> result = tools.searchEmails(actor, query);
         if (result.allowed() && result.value() != null) {
-            for (Course course : result.value()) {
-                note(entities, course.id());
+            for (EmailInfo email : result.value()) {
+                note(emails, email.emailId());
             }
         }
-        calls.add(new ToolCall("getStudentCourses", args, result.decision().name(), false));
-        return result;
-    }
-
-    public Gated<List<ExamInfo>> examsForCourse(String courseId) {
-        String args = actorArgs("courseId=" + courseId);
-        if (blocked("examsForCourse", args)) {
-            return empty();
-        }
-        Gated<List<ExamInfo>> result = tools.examsForCourse(actor, courseId);
-        if (result.allowed() && result.value() != null) {
-            for (ExamInfo exam : result.value()) {
-                note(entities, exam.examId());
-                note(entities, exam.courseId());
-                note(entities, exam.locationId());
-            }
-        }
-        calls.add(new ToolCall("examsForCourse", args, result.decision().name(), false));
+        calls.add(new ToolCall("searchEmails", args, result.decision().name(), false));
         return result;
     }
 
@@ -99,6 +82,10 @@ public final class ToolGateway {
         String args = actorArgs("documentId=" + documentId);
         if (blocked("getDocument", args)) {
             return empty();
+        }
+        if (!attachedToMailbox(documentId)) {
+            calls.add(new ToolCall("getDocument", args, AccessDecision.ACCESS_DENIED.name(), false));
+            return new Gated<>(AccessDecision.ACCESS_DENIED, null);
         }
         Gated<Document> result = tools.getDocument(actor, documentId);
         if (result.allowed() && result.value() != null) {
@@ -120,37 +107,6 @@ public final class ToolGateway {
             }
         }
         calls.add(new ToolCall("getEmailThread", args, result.decision().name(), false));
-        return result;
-    }
-
-    public Gated<List<EventInfo>> searchEvents(String query) {
-        String args = actorArgs("query=" + query);
-        if (blocked("searchEvents", args)) {
-            return empty();
-        }
-        Gated<List<EventInfo>> result = tools.searchEvents(actor, query);
-        if (result.allowed() && result.value() != null) {
-            for (EventInfo event : result.value()) {
-                note(entities, event.eventId());
-            }
-        }
-        calls.add(new ToolCall("searchEvents", args, result.decision().name(), false));
-        return result;
-    }
-
-    public Gated<List<PersonInfo>> getProjectMembers(String projectId) {
-        String args = actorArgs("projectId=" + projectId);
-        if (blocked("getProjectMembers", args)) {
-            return empty();
-        }
-        Gated<List<PersonInfo>> result = tools.getProjectMembers(actor, projectId);
-        if (result.allowed() && result.value() != null) {
-            note(entities, projectId);
-            for (PersonInfo person : result.value()) {
-                note(entities, person.personId());
-            }
-        }
-        calls.add(new ToolCall("getProjectMembers", args, result.decision().name(), false));
         return result;
     }
 
@@ -180,6 +136,20 @@ public final class ToolGateway {
         actions.add("SEND_EMAIL");
         calls.add(new ToolCall("send", args, email.id(), false));
         return email;
+    }
+
+    private boolean attachedToMailbox(String documentId) {
+        if (actor == null) {
+            return false;
+        }
+        for (Email email : repo.emailsForMailbox(actor.mailboxId())) {
+            for (EmailAttachment attachment : repo.attachmentsOf(email.id())) {
+                if (documentId.equals(attachment.documentId())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private boolean blocked(String tool, String args) {
