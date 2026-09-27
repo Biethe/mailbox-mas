@@ -1,0 +1,34 @@
+{
+  "name": "medium",
+  "university": {
+    "name": "Aldermere University",
+    "shortName": "Aldermere",
+    "description": "Université fictive francophone, utilisée comme monde contrôlé pour des expériences multi-agents. Les usagers du service s'expriment en français.",
+    "location": "Aldermere, Northshore",
+    "website": "https://www.aldermere.edu",
+    "emailDomain": "aldermere.edu",
+    "masLocalPart": "assistant"
+  },
+  "calendar": {
+    "academicYear": "2025-2026",
+    "currentSemester": "FALL",
+    "epoch": "2025-09-01T08:00:00"
+  },
+  "counts": {
+    "faculties": 4,
+    "departments": 10,
+    "programs": 12,
+    "buildings": 4,
+    "people": 300,
+    "students": 200,
+    "professors": 60,
+    "researchers": 25,
+    "administrators": 15,
+    "professorResearchers": 20,
+    "courses": 80,
+    "researchProjects": 30,
+    "documents": 800,
+    "emails": 4000,
+    "events": 200
+  }
+}

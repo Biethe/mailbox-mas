@@ -1,0 +1,80 @@
+{
+  "fileId" : "COMPOSE-f8be0dffcf57",
+  "stableKey" : "COMPOSE|person-00017|CREATE_MAIL|||course:course-00005:true,document:document-00007:true||Écrivez à Viktor Abebe au sujet de ME100 pour demander si la date limite peut être déplacée.\nRaccourcissez le message.\nMettez aussi Hugo Ibarra en copie.\nJoignez le guide du cours.\nC'est bien ainsi.",
+  "category" : "COMPOSE",
+  "response" : "D'accord, je rédige les éléments du message. Une fois terminé, vous le trouverez dans votre dossier brouillon. Vous pourrez ensuite le valider et l'envoyer.",
+  "replyLabel" : "",
+  "draft" : {
+    "to" : [ "mailbox-00033" ],
+    "cc" : [ "mailbox-00005" ],
+    "bcc" : [ ],
+    "subject" : "Report de date limite — ME100",
+    "body" : "Bonjour,\n\nPouvez-vous déplacer la date limite de ME100 ?\n\nBien à vous",
+    "attachmentIds" : [ "document-00007" ],
+    "status" : "DRAFT"
+  },
+  "turns" : [ {
+    "turn" : 1,
+    "instruction" : "Écrivez à Viktor Abebe au sujet de ME100 pour demander si la date limite peut être déplacée.",
+    "draft" : {
+      "to" : [ "mailbox-00033" ],
+      "cc" : [ ],
+      "bcc" : [ ],
+      "subject" : "Report de date limite — ME100",
+      "body" : "Bonjour,\n\nJe vous écris au sujet de ME100. Serait-il possible de déplacer la date limite du devoir ? Le calendrier de cette semaine est déjà chargé, et je préfère vous le dire maintenant plutôt que la veille.\n\nBien à vous",
+      "attachmentIds" : [ ],
+      "status" : "DRAFT"
+    }
+  }, {
+    "turn" : 2,
+    "instruction" : "Raccourcissez le message.",
+    "draft" : {
+      "to" : [ "mailbox-00033" ],
+      "cc" : [ ],
+      "bcc" : [ ],
+      "subject" : "Report de date limite — ME100",
+      "body" : "Bonjour,\n\nPouvez-vous déplacer la date limite de ME100 ?\n\nBien à vous",
+      "attachmentIds" : [ ],
+      "status" : "DRAFT"
+    }
+  }, {
+    "turn" : 3,
+    "instruction" : "Mettez aussi Hugo Ibarra en copie.",
+    "draft" : {
+      "to" : [ "mailbox-00033" ],
+      "cc" : [ "mailbox-00005" ],
+      "bcc" : [ ],
+      "subject" : "Report de date limite — ME100",
+      "body" : "Bonjour,\n\nPouvez-vous déplacer la date limite de ME100 ?\n\nBien à vous",
+      "attachmentIds" : [ ],
+      "status" : "DRAFT"
+    }
+  }, {
+    "turn" : 4,
+    "instruction" : "Joignez le guide du cours.",
+    "draft" : {
+      "to" : [ "mailbox-00033" ],
+      "cc" : [ "mailbox-00005" ],
+      "bcc" : [ ],
+      "subject" : "Report de date limite — ME100",
+      "body" : "Bonjour,\n\nPouvez-vous déplacer la date limite de ME100 ?\n\nBien à vous",
+      "attachmentIds" : [ "document-00007" ],
+      "status" : "DRAFT"
+    }
+  }, {
+    "turn" : 5,
+    "instruction" : "C'est bien ainsi.",
+    "draft" : {
+      "to" : [ "mailbox-00033" ],
+      "cc" : [ "mailbox-00005" ],
+      "bcc" : [ ],
+      "subject" : "Report de date limite — ME100",
+      "body" : "Bonjour,\n\nPouvez-vous déplacer la date limite de ME100 ?\n\nBien à vous",
+      "attachmentIds" : [ "document-00007" ],
+      "status" : "DRAFT"
+    }
+  } ],
+  "notes" : "",
+  "status" : "reviewed",
+  "updatedAt" : "2026-09-27T15:30:53.332644030Z"
+}

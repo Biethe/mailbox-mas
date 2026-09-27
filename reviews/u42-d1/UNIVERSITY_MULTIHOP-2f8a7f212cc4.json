@@ -1,0 +1,20 @@
+{
+  "fileId" : "UNIVERSITY_MULTIHOP-2f8a7f212cc4",
+  "stableKey" : "UNIVERSITY_MULTIHOP|person-00020|LOOKUP|||course:course-00002:true,exam:exam-00002:true,room:room-00020:true||Quand et où a lieu mon examen de EE100 ?",
+  "category" : "UNIVERSITY_MULTIHOP",
+  "response" : "EE100\n2025-12-01T09:00\nH-020\nBloc d'ingénierie",
+  "replyLabel" : "",
+  "draft" : {
+    "to" : [ ],
+    "cc" : [ ],
+    "bcc" : [ ],
+    "subject" : "",
+    "body" : "",
+    "attachmentIds" : [ ],
+    "status" : "EMPTY"
+  },
+  "turns" : [ ],
+  "notes" : "",
+  "status" : "reviewed",
+  "updatedAt" : "2026-09-27T16:00:21.445259842Z"
+}

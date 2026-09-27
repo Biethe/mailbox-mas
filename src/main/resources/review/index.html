@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Benchmark review</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f6f4ef;
+      --ink: #1c1915;
+      --muted: #5c564c;
+      --line: #ddd6c8;
+      --paper: #fffdf8;
+      --accent: #1f4d3a;
+      --accent-ink: #f4f7f4;
+      --warn: #8a3d12;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #161513;
+        --ink: #f3efe6;
+        --muted: #b7b0a4;
+        --line: #3a362f;
+        --paper: #211f1b;
+        --accent: #8fbfa4;
+        --accent-ink: #14241c;
+        --warn: #e0a07a;
+      }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 16px/1.45 Georgia, "Iowan Old Style", Palatino, serif; background: var(--bg); color: var(--ink); }
+    button, input, textarea, select { font: 15px/1.4 "Segoe UI", sans-serif; color: inherit; }
+    header { padding: 18px 22px 12px; border-bottom: 1px solid var(--line); }
+    header h1 { margin: 0 0 4px; font-size: 22px; font-weight: 600; }
+    header p { margin: 0; color: var(--muted); font: 14px/1.4 "Segoe UI", sans-serif; }
+    .layout { display: grid; grid-template-columns: 280px 1fr; min-height: calc(100vh - 78px); }
+    nav { border-right: 1px solid var(--line); overflow: auto; padding: 8px; }
+    nav button { display: block; width: 100%; text-align: left; background: transparent; border: 0; border-radius: 6px; padding: 8px 10px; cursor: pointer; }
+    nav button.active { background: var(--paper); }
+    nav .cat { display: block; font: 11px/1.2 "Segoe UI", sans-serif; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+    nav .q { display: block; margin-top: 2px; }
+    nav .done { color: var(--accent); font: 12px/1 "Segoe UI", sans-serif; }
+    main { overflow: auto; padding: 22px 28px 80px; max-width: 920px; }
+    h2 { font-size: 18px; margin: 22px 0 8px; }
+    .who { color: var(--muted); font: 14px/1.4 "Segoe UI", sans-serif; }
+    .instruction { font-size: 18px; margin: 8px 0; }
+    .resources { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px; }
+    .resources button { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px; cursor: pointer; text-align: left; }
+    .resources button.active { border-color: var(--accent); }
+    .reader { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 18px 20px; max-height: 58vh; overflow: auto; }
+    .reader h3 { margin: 0 0 6px; font-size: 20px; }
+    .meta, .role { color: var(--muted); font: 13px/1.4 "Segoe UI", sans-serif; white-space: pre-wrap; }
+    .reader .body { white-space: pre-wrap; margin: 14px 0 0; font-size: 17px; line-height: 1.55; }
+    label { display: block; margin: 12px 0 4px; font: 13px/1.2 "Segoe UI", sans-serif; color: var(--muted); }
+    textarea, input[type="text"] { width: 100%; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; }
+    textarea { min-height: 120px; resize: vertical; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .save { margin-top: 16px; background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 6px; padding: 8px 14px; cursor: pointer; }
+    .note { color: var(--warn); font: 14px/1.4 "Segoe UI", sans-serif; }
+    .auto { font: 14px/1.4 "Segoe UI", sans-serif; color: var(--muted); }
+    .turn { border-top: 1px solid var(--line); margin-top: 8px; padding-top: 8px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Review a sample of the benchmark</h1>
+    <p id="progress">Loading the stratified sample.</p>
+  </header>
+  <div class="layout">
+    <nav id="list"></nav>
+    <main id="detail"><p class="who">Choose a scenario.</p></main>
+  </div>
+  <script>
+    const list = document.getElementById("list");
+    const detail = document.getElementById("detail");
+    const progress = document.getElementById("progress");
+    let queue = [];
+    let current = null;
+
+    function el(tag, text, className) {
+      const node = document.createElement(tag);
+      if (className) node.className = className;
+      if (text != null) node.textContent = text;
+      return node;
+    }
+
+    function field(name, value) {
+      const label = el("label", name);
+      const input = document.createElement(name === "Subject" || name.endsWith("ids") ? "input" : "textarea");
+      if (input.tagName === "INPUT") input.type = "text";
+      input.value = value || "";
+      input.dataset.field = name;
+      return [label, input];
+    }
+
+    function lines(value) {
+      return (value || "").split("\n").map(s => s.trim()).filter(Boolean);
+    }
+
+    async function loadQueue() {
+      const response = await fetch("/api/queue");
+      const body = await response.json();
+      queue = body.items;
+      const reviewed = queue.filter(item => item.reviewed).length;
+      progress.textContent = reviewed + " of " + queue.length + " reviewed. One from every category, then extra items from the larger categories. Saving writes a gold file and does not rewrite the other generated tasks yet.";
+      list.replaceChildren();
+      for (const item of queue) {
+        const button = document.createElement("button");
+        button.append(el("span", item.category, "cat"));
+        button.append(el("span", item.instruction, "q"));
+        if (item.reviewed) button.append(el("span", "Reviewed", "done"));
+        button.addEventListener("click", () => openItem(item.fileId, button));
+        list.append(button);
+      }
+    }
+
+    async function openItem(fileId, button) {
+      for (const child of list.children) child.classList.remove("active");
+      button.classList.add("active");
+      const item = await (await fetch("/api/item/" + fileId)).json();
+      current = item;
+      render(item);
+    }
+
+    function preferred(materials) {
+      const rank = { Document: 0, Email: 1, Assignment: 2, Exam: 3, Course: 4 };
+      let best = 0;
+      materials.forEach((material, index) => {
+        const score = rank[material.type] ?? 9;
+        const bestScore = rank[materials[best].type] ?? 9;
+        if (score < bestScore) best = index;
+      });
+      return best;
+    }
+
+    function draftOf(draft) {
+      draft = draft || { to: [], cc: [], bcc: [], subject: "", body: "", attachmentIds: [] };
+      return draft;
+    }
+
+    function render(item) {
+      const gold = item.gold;
+      const draft = draftOf(gold && gold.draft && gold.draft.status !== "EMPTY" ? gold.draft : item.autoDraft);
+      detail.replaceChildren();
+      detail.append(el("p", item.userName + " · " + item.userEmail + " · " + item.roles, "who"));
+      detail.append(el("p", item.category + " · " + item.operation + " · send " + item.sendRule, "who"));
+      for (const instruction of item.instructions) detail.append(el("p", instruction, "instruction"));
+
+      detail.append(el("h2", "Read the resource"));
+      if (!item.materials.length) {
+        detail.append(el("p", "This task has no source email or document. The answer is a refusal or a failure message.", "who"));
+      } else {
+        const picker = document.createElement("div");
+        picker.className = "resources";
+        const reader = document.createElement("article");
+        reader.className = "reader";
+        function show(material, button) {
+          for (const child of picker.children) child.classList.remove("active");
+          if (button) button.classList.add("active");
+          reader.replaceChildren();
+          reader.append(el("p", material.role + " · " + material.type + " · " + material.id, "role"));
+          reader.append(el("h3", material.title || material.id));
+          if (material.meta) reader.append(el("p", material.meta, "meta"));
+          reader.append(el("p", material.body || "This record has no body text.", "body"));
+        }
+        item.materials.forEach((material, index) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.textContent = material.type + ": " + (material.title || material.id);
+          button.addEventListener("click", () => show(material, button));
+          picker.append(button);
+          if (index === preferred(item.materials)) show(material, button);
+        });
+        detail.append(picker);
+        detail.append(reader);
+      }
+
+      detail.append(el("h2", "Generator gold"));
+      detail.append(el("p", item.autoClaims.join("\n") || "(none)", "auto"));
+      if (item.forbiddenClaims.length) {
+        detail.append(el("p", "Generator treats these strings as leaks: " + item.forbiddenClaims.map(text => text.slice(0, 80)).join(" | "), "note"));
+      }
+
+      detail.append(el("h2", "Your gold response"));
+      detail.append(el("p", "The bounded answer the assistant should give. For a lookup or summary, write the answer you would accept. For mail, you can leave a short confirmation here and put the message in the draft.", "who"));
+      const response = document.createElement("textarea");
+      response.id = "response";
+      response.value = gold ? gold.response : item.autoClaims.join("\n");
+      detail.append(response);
+
+      if (item.category === "REPLY_NEEDED") {
+        detail.append(el("label", "Reply label"));
+        const select = document.createElement("select");
+        select.id = "replyLabel";
+        for (const option of ["REPLY_REQUIRED", "REPLY_OPTIONAL", "NO_REPLY"]) {
+          const node = document.createElement("option");
+          node.value = option;
+          node.textContent = option;
+          select.append(node);
+        }
+        select.value = (gold && gold.replyLabel) || item.replyLabel || "REPLY_OPTIONAL";
+        detail.append(select);
+      }
+
+      if (item.mailTask) {
+        detail.append(el("h2", item.autoTurns.length > 1 ? "Final draft" : "Golden draft"));
+        const pairs = [
+          ["To", (draft.to || []).join("\n")],
+          ["Cc", (draft.cc || []).join("\n")],
+          ["Bcc", (draft.bcc || []).join("\n")],
+          ["Subject", draft.subject || ""],
+          ["Body", draft.body || ""],
+          ["Attachment ids", (draft.attachmentIds || []).join("\n")]
+        ];
+        for (const [name, value] of pairs) {
+          for (const node of field(name, value)) detail.append(node);
+        }
+        if (item.autoTurns.length > 1) {
+          detail.append(el("h2", "Composition"));
+          detail.append(el("p", "Each turn is what the draft should look like after that user instruction. Later calibration will use these, not only the final draft.", "who"));
+          const turns = (gold && gold.turns && gold.turns.length) ? gold.turns : item.autoTurns;
+          turns.forEach((turn, index) => {
+            const wrap = document.createElement("div");
+            wrap.className = "turn";
+            wrap.dataset.turn = String(turn.turn || index + 1);
+            wrap.append(el("p", "Turn " + (turn.turn || index + 1) + ". " + (turn.instruction || item.instructions[index] || ""), "instruction"));
+            const turnDraft = draftOf(turn.draft);
+            for (const [name, value] of [
+              ["Turn subject", turnDraft.subject],
+              ["Turn body", turnDraft.body],
+              ["Turn to", (turnDraft.to || []).join("\n")],
+              ["Turn cc", (turnDraft.cc || []).join("\n")],
+              ["Turn attachments", (turnDraft.attachmentIds || []).join("\n")]
+            ]) {
+              for (const node of field(name, value)) wrap.append(node);
+            }
+            detail.append(wrap);
+          });
+        }
+      }
+
+      detail.append(el("label", "Notes for later calibration"));
+      const notes = document.createElement("textarea");
+      notes.id = "notes";
+      notes.value = gold ? gold.notes : "";
+      detail.append(notes);
+      const save = el("button", "Save gold");
+      save.className = "save";
+      save.addEventListener("click", () => saveGold(item));
+      detail.append(save);
+      const status = el("p", "", "who");
+      status.id = "status";
+      detail.append(status);
+    }
+
+    function inputValue(name, root) {
+      const node = [...(root || detail).querySelectorAll("[data-field]")].find(el => el.dataset.field === name);
+      return node ? node.value : "";
+    }
+
+    async function saveGold(item) {
+      const draft = {
+        to: lines(inputValue("To")),
+        cc: lines(inputValue("Cc")),
+        bcc: lines(inputValue("Bcc")),
+        subject: inputValue("Subject"),
+        body: inputValue("Body"),
+        attachmentIds: lines(inputValue("Attachment ids")),
+        status: item.sendRule === "REQUIRED" ? "SENT" : "DRAFT"
+      };
+      const turns = [...detail.querySelectorAll(".turn")].map(wrap => ({
+        turn: Number(wrap.dataset.turn),
+        instruction: wrap.querySelector(".instruction").textContent.replace(/^Turn \d+\. /, ""),
+        draft: {
+          to: lines(inputValue("Turn to", wrap)),
+          cc: lines(inputValue("Turn cc", wrap)),
+          bcc: [],
+          subject: inputValue("Turn subject", wrap),
+          body: inputValue("Turn body", wrap),
+          attachmentIds: lines(inputValue("Turn attachments", wrap)),
+          status: "DRAFT"
+        }
+      }));
+      const reply = document.getElementById("replyLabel");
+      const body = {
+        fileId: item.fileId,
+        stableKey: item.stableKey,
+        category: item.category,
+        response: document.getElementById("response").value,
+        replyLabel: reply ? reply.value : "",
+        draft: item.mailTask ? draft : null,
+        turns: turns,
+        notes: document.getElementById("notes").value
+      };
+      const saved = await fetch("/api/item/" + item.fileId, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+      document.getElementById("status").textContent = saved.ok ? "Saved. This gold file is the calibration example for its category." : "Save failed.";
+      if (saved.ok) loadQueue();
+    }
+
+    loadQueue();
+  </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "fileId" : "REPLY_NEEDED-389f5e6cfc83",
+  "stableKey" : "REPLY_NEEDED|person-00001|CLASSIFY_REPLY|email-00084|thread-00038|email:email-00084:true||Est-ce que je dois répondre à ce message ? Répondez uniquement par REPLY_REQUIRED, REPLY_OPTIONAL ou NO_REPLY.",
+  "category" : "REPLY_NEEDED",
+  "response" : "REPLY_OPTIONAL",
+  "replyLabel" : "REPLY_OPTIONAL",
+  "draft" : {
+    "to" : [ ],
+    "cc" : [ ],
+    "bcc" : [ ],
+    "subject" : "",
+    "body" : "",
+    "attachmentIds" : [ ],
+    "status" : "EMPTY"
+  },
+  "turns" : [ ],
+  "notes" : "",
+  "status" : "reviewed",
+  "updatedAt" : "2026-09-27T15:51:01.108096041Z"
+}

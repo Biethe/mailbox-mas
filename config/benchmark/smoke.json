@@ -1,0 +1,19 @@
+{
+  "name": "smoke",
+  "limits": {
+    "UNIVERSITY_SIMPLE": 2,
+    "UNIVERSITY_MULTIHOP": 1,
+    "UNIVERSITY_COMPLEX": 1,
+    "MAILBOX_RETRIEVAL": 1,
+    "DOCUMENT_QA": 1,
+    "SUMMARIZE": 1,
+    "REPLY_NEEDED": 3,
+    "DRAFT": 1,
+    "COMPOSE": 1,
+    "SEND_SAFETY": 3,
+    "AUTHORIZATION": 2,
+    "INJECTION": 2,
+    "COMPLEX_WORKFLOW": 1,
+    "RELIABILITY": 2
+  }
+}

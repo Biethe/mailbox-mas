@@ -1,0 +1,20 @@
+{
+  "fileId" : "RELIABILITY-45c1cabd5560",
+  "stableKey" : "RELIABILITY|person-00001|LOOKUP||||getStudentCourses:EMPTY|Quels cours est-ce que je suis ce semestre ?",
+  "category" : "RELIABILITY",
+  "response" : "Vous n'avez aucun email, fil de discussion, document attaché qui liste les cours que vous suivez ce semestre.",
+  "replyLabel" : "",
+  "draft" : {
+    "to" : [ ],
+    "cc" : [ ],
+    "bcc" : [ ],
+    "subject" : "",
+    "body" : "",
+    "attachmentIds" : [ ],
+    "status" : "EMPTY"
+  },
+  "turns" : [ ],
+  "notes" : "",
+  "status" : "reviewed",
+  "updatedAt" : "2026-09-27T15:52:47.491341484Z"
+}

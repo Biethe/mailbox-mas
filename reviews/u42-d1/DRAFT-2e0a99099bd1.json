@@ -1,0 +1,20 @@
+{
+  "fileId" : "DRAFT-2e0a99099bd1",
+  "stableKey" : "DRAFT|person-00001|CREATE_DRAFT|email-00001|thread-00001|email:email-00001:true||Rédigez une réponse pour confirmer que j'ai bien noté le message. Ne l'envoyez pas.",
+  "category" : "DRAFT",
+  "response" : "CS100 — date limite du devoir",
+  "replyLabel" : "",
+  "draft" : {
+    "to" : [ "mailbox-00029" ],
+    "cc" : [ ],
+    "bcc" : [ ],
+    "subject" : "CS100 — date limite du devoir",
+    "body" : "Bonjour Professeur,\n\nJe confirme réception de votre dernier mail. Je note bien les informations importantes.\n\nBien à vous,\n\nMara",
+    "attachmentIds" : [ ],
+    "status" : "DRAFT"
+  },
+  "turns" : [ ],
+  "notes" : "",
+  "status" : "reviewed",
+  "updatedAt" : "2026-09-27T15:36:43.461396204Z"
+}

@@ -1,0 +1,20 @@
+{
+  "fileId" : "SUMMARIZE-4a7e8df2ed1b",
+  "stableKey" : "SUMMARIZE|person-00029|SUMMARIZE|email-00002|thread-00001|email:email-00001:true,email:email-00002:true,email:email-00003:true||Résumez ce fil de discussion.",
+  "category" : "SUMMARIZE",
+  "response" : "La date limite retenue pour le devoir de CS100 est 2025-10-01T16:00,  Tout travail remis en retard perd dix pour cent de la note par jour, dans la limite de trois jours. Passé ce délai, le travail n'est plus accepté. Le professeur souhaite que l'information soit distribuée à tous les étudiants du cours.\nCS100 — date limite du devoir",
+  "replyLabel" : "",
+  "draft" : {
+    "to" : [ ],
+    "cc" : [ ],
+    "bcc" : [ ],
+    "subject" : "",
+    "body" : "",
+    "attachmentIds" : [ ],
+    "status" : "EMPTY"
+  },
+  "turns" : [ ],
+  "notes" : "",
+  "status" : "reviewed",
+  "updatedAt" : "2026-09-27T15:59:18.983370543Z"
+}

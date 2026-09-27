@@ -1,0 +1,20 @@
+{
+  "fileId" : "COMPLEX_WORKFLOW-eb6575e2d16f",
+  "stableKey" : "COMPLEX_WORKFLOW|person-00001|CREATE_DRAFT|email-00003|thread-00001|document:document-00003:true,email:email-00003:true||Résumez le fil sélectionné, puis rédigez une réponse qui cite la règle de retard et joint le guide. Ne l'envoyez pas.",
+  "category" : "COMPLEX_WORKFLOW",
+  "response" : "La date limite retenue pour le devoir de CS100 est 2025-10-01T16:00,  Tout travail remis en retard perd dix pour cent de la note par jour, dans la limite de trois jours. Passé ce délai, le travail n'est plus accepté. Le professeur souhaite que l'information soit distribuée à tous les étudiants du cours.\nCS100 — date limite du devoir",
+  "replyLabel" : "",
+  "draft" : {
+    "to" : [ "mailbox-00029" ],
+    "cc" : [ "evan.olsen@aldermere.edu" ],
+    "bcc" : [ ],
+    "subject" : "CS100 — date limite du devoir",
+    "body" : "Bonjour,\n\nSous la demande du Professeur Olsen, je vous informe que la date limite du devoir est 2025-10-01T16:00. Tout travail remis en retard perd dix pour cent de la note par jour, dans la limite de trois jours.\n\nPassé ce délai, le travail n'est plus accepté.\n\n\n Je vous en picèce jointe le guide du cours.\n\nJe vous souhaite bonne réception.\n\nCordialement,\n\nMara Allison\n",
+    "attachmentIds" : [ "document-00003" ],
+    "status" : "DRAFT"
+  },
+  "turns" : [ ],
+  "notes" : "In the summary, all information that requires the user's attention and that he may find anywhere else should be there. The draft should include those same key information.",
+  "status" : "reviewed",
+  "updatedAt" : "2026-09-27T15:11:28.954263393Z"
+}

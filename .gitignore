@@ -1,0 +1,10 @@
+.gradle/
+.gradle-dist/
+build/
+data/*.db
+data/*.mv.db
+data/*.trace.db
+data/*.lock.db
+*.log
+.idea/
+*.iml

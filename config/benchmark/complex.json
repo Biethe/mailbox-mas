@@ -1,0 +1,19 @@
+{
+  "name": "complex",
+  "limits": {
+    "UNIVERSITY_SIMPLE": 0,
+    "UNIVERSITY_MULTIHOP": 2,
+    "UNIVERSITY_COMPLEX": 8,
+    "MAILBOX_RETRIEVAL": 0,
+    "DOCUMENT_QA": 4,
+    "SUMMARIZE": 0,
+    "REPLY_NEEDED": 0,
+    "DRAFT": 0,
+    "COMPOSE": 8,
+    "SEND_SAFETY": 0,
+    "AUTHORIZATION": 0,
+    "INJECTION": 0,
+    "COMPLEX_WORKFLOW": 6,
+    "RELIABILITY": 0
+  }
+}

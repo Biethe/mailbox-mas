@@ -1,0 +1,20 @@
+{
+  "fileId" : "MAILBOX_RETRIEVAL-6b1764deb100",
+  "stableKey" : "MAILBOX_RETRIEVAL|person-00029|LOOKUP|email-00002|thread-00001|email:email-00001:true,email:email-00002:true,email:email-00003:true||Retrouvez le fil dont l'objet est « CS100 — date limite du devoir ».",
+  "category" : "MAILBOX_RETRIEVAL",
+  "response" : "CS100 — date limite du devoir",
+  "replyLabel" : "",
+  "draft" : {
+    "to" : [ ],
+    "cc" : [ ],
+    "bcc" : [ ],
+    "subject" : "",
+    "body" : "",
+    "attachmentIds" : [ ],
+    "status" : "EMPTY"
+  },
+  "turns" : [ ],
+  "notes" : "",
+  "status" : "reviewed",
+  "updatedAt" : "2026-09-27T15:48:56.521647558Z"
+}

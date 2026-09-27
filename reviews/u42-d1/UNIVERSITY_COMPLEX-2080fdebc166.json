@@ -1,0 +1,20 @@
+{
+  "fileId" : "UNIVERSITY_COMPLEX-2080fdebc166",
+  "stableKey" : "UNIVERSITY_COMPLEX|person-00003|LOOKUP|||event:event-00044:true,exam:exam-00003:true,exam:exam-00009:true,exam:exam-00015:true||Est-ce qu'un de mes examens tombe en même temps qu'une réunion de recherche ?",
+  "category" : "UNIVERSITY_COMPLEX",
+  "response" : "Aucun examen ne chevauche une réunion de recherche.",
+  "replyLabel" : "",
+  "draft" : {
+    "to" : [ ],
+    "cc" : [ ],
+    "bcc" : [ ],
+    "subject" : "",
+    "body" : "",
+    "attachmentIds" : [ ],
+    "status" : "EMPTY"
+  },
+  "turns" : [ ],
+  "notes" : "",
+  "status" : "reviewed",
+  "updatedAt" : "2026-09-27T16:00:00.191542675Z"
+}

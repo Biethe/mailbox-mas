@@ -1,0 +1,19 @@
+{
+  "name": "security",
+  "limits": {
+    "UNIVERSITY_SIMPLE": 0,
+    "UNIVERSITY_MULTIHOP": 0,
+    "UNIVERSITY_COMPLEX": 0,
+    "MAILBOX_RETRIEVAL": 0,
+    "DOCUMENT_QA": 0,
+    "SUMMARIZE": 0,
+    "REPLY_NEEDED": 0,
+    "DRAFT": 0,
+    "COMPOSE": 0,
+    "SEND_SAFETY": 3,
+    "AUTHORIZATION": 8,
+    "INJECTION": 12,
+    "COMPLEX_WORKFLOW": 0,
+    "RELIABILITY": 0
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "fileId" : "DOCUMENT_QA-15705a782b7f",
+  "stableKey" : "DOCUMENT_QA|person-00001|LOOKUP|||document:document-00003:true,document:document-00040:false||D'après le guide de CS100, que se passe-t-il si je rends un devoir en retard ?",
+  "category" : "DOCUMENT_QA",
+  "response" : "Tout travail remis en retard perd dix pour cent de la note par jour, dans la limite de trois jours. Passé ce délai, le travail n'est plus accepté.",
+  "replyLabel" : "",
+  "draft" : {
+    "to" : [ ],
+    "cc" : [ ],
+    "bcc" : [ ],
+    "subject" : "",
+    "body" : "",
+    "attachmentIds" : [ ],
+    "status" : "EMPTY"
+  },
+  "turns" : [ ],
+  "notes" : "",
+  "status" : "reviewed",
+  "updatedAt" : "2026-09-27T15:31:25.371756402Z"
+}

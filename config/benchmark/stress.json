@@ -1,0 +1,19 @@
+{
+  "name": "stress",
+  "limits": {
+    "UNIVERSITY_SIMPLE": 40,
+    "UNIVERSITY_MULTIHOP": 40,
+    "UNIVERSITY_COMPLEX": 40,
+    "MAILBOX_RETRIEVAL": 40,
+    "DOCUMENT_QA": 20,
+    "SUMMARIZE": 40,
+    "REPLY_NEEDED": 40,
+    "DRAFT": 20,
+    "COMPOSE": 20,
+    "SEND_SAFETY": 3,
+    "AUTHORIZATION": 10,
+    "INJECTION": 20,
+    "COMPLEX_WORKFLOW": 10,
+    "RELIABILITY": 5
+  }
+}

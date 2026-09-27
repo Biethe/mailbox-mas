@@ -1,0 +1,20 @@
+{
+  "fileId" : "UNIVERSITY_SIMPLE-ccafdaf27d2b",
+  "stableKey" : "UNIVERSITY_SIMPLE|person-00014|LOOKUP|||course:course-00002:true,course:course-00008:true,course:course-00014:true,course:course-00020:true||Quels cours est-ce que je suis ce semestre ?",
+  "category" : "UNIVERSITY_SIMPLE",
+  "response" : "EE100\nEE101\nEE102\nEE103",
+  "replyLabel" : "",
+  "draft" : {
+    "to" : [ ],
+    "cc" : [ ],
+    "bcc" : [ ],
+    "subject" : "",
+    "body" : "",
+    "attachmentIds" : [ ],
+    "status" : "EMPTY"
+  },
+  "turns" : [ ],
+  "notes" : "",
+  "status" : "reviewed",
+  "updatedAt" : "2026-09-27T16:00:49.771178946Z"
+}

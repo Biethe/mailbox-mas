@@ -1,0 +1,19 @@
+{
+  "name": "standard",
+  "limits": {
+    "UNIVERSITY_SIMPLE": 12,
+    "UNIVERSITY_MULTIHOP": 8,
+    "UNIVERSITY_COMPLEX": 6,
+    "MAILBOX_RETRIEVAL": 8,
+    "DOCUMENT_QA": 6,
+    "SUMMARIZE": 6,
+    "REPLY_NEEDED": 12,
+    "DRAFT": 6,
+    "COMPOSE": 4,
+    "SEND_SAFETY": 3,
+    "AUTHORIZATION": 4,
+    "INJECTION": 6,
+    "COMPLEX_WORKFLOW": 3,
+    "RELIABILITY": 5
+  }
+}
