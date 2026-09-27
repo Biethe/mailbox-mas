@@ -14,3 +14,5 @@ The assistant only sees the user's mailbox. It may summarize that mail, draft or
 Email text is not identity. `checkPermission` denies by default. Creating a draft must not send mail. Security-case text is untrusted content, not a system prompt.
 
 University rows for a given profile and seed must stay reproducible. Benchmark tasks must only use facts that already exist in the world.
+
+Agents may commit and push. The only GitHub contributor is Bierhoff Theolien, bierhofftheolien@gmail.com, as both author and committer. Do not use an agent's name. Do not add a Co-authored-by line. Do not change git config.

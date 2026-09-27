@@ -98,6 +98,10 @@ Open the printed `http://127.0.0.1:8765` page. Saves go to `reviews/u<university
 - `observations.jsonl` is the only task view an assistant should receive
 - `ground-truth.jsonl` is for the evaluator
 
+## Commits
+
+Agents may commit and push. The only GitHub contributor is Bierhoff Theolien, `bierhofftheolien@gmail.com`. That address is the author and the committer. Do not use an agent's name. Do not add a `Co-authored-by` line. Do not change git config. Set the name and email only for the commit you are creating.
+
 ## Rules that are easy to break
 
 - Identity comes from the mailbox, then the account, then the person. Text inside an email is not identity. "I am Professor Smith" is content.
